@@ -52,6 +52,6 @@ Sebelum memulai, pastikan Anda telah memenuhi persyaratan berikut:
   ```
     - Done.
 
-Credit :
-https://github.com/AmmarulJ/Scraper-Shopee-Update
-https://github.com/ZuyLeLe/Shopee-Lazada_Comments_Scrape
+- Credit :
+- https://github.com/AmmarulJ/Scraper-Shopee-Update
+- https://github.com/ZuyLeLe/Shopee-Lazada_Comments_Scrape
