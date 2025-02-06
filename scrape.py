@@ -2,12 +2,15 @@ import pandas as pd
 import requests
 import json
 from datetime import datetime
+import certifi
+import re
 
 # Fungsi untuk membersihkan dan memformat nama produk dari URL
 def clean_product_name(raw_url):
     # Ambil nama produk dari URL dan ganti karakter yang tidak valid untuk nama file
     product_name = raw_url.split('/')[-1].split('?')[0]
     product_name = product_name.replace('-', '_').replace(' ', '_').replace('(', '').replace(')', '')
+    product_name = re.sub(r'[\\/*?:"<>|]', "", product_name)  # Remove invalid characters
     return product_name
 
 # Load config.json untuk header
@@ -25,6 +28,10 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 output_file = f"{product_name}_{timestamp}.csv"
 
 offset = 0
+
+# Setel path bundle sertifikat
+requests.utils.DEFAULT_CA_BUNDLE_PATH = certifi.where()
+
 all_data = []
 
 while num_of_comments > 0:
@@ -32,14 +39,14 @@ while num_of_comments > 0:
         # API endpoint dan parameters
         url = "https://shopee.co.id/api/v2/item/get_ratings"
         params = {
-            "itemid": "", #Isi dengan itemid produk shopee
-            "shopid": "", #Isi dengan shopid toko shopee
+            "itemid": "22228898562",  # Isi dengan itemid produk shopee
+            "shopid": "223611616",    # Isi dengan shopid toko shopee
             "limit": 59,
             "offset": offset
         }
 
         # Make the GET request
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, headers=headers, params=params, verify=certifi.where())
         response.raise_for_status()  # Raise HTTPError for bad responses
 
         res = response.json()
